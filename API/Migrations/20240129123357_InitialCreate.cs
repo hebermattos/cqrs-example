@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Products.Migrations
+namespace products.Migrations
 {
     public partial class InitialCreate : Migration
     {

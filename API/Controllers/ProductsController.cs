@@ -1,8 +1,9 @@
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Nest;
 
-namespace Products.Controllers;
+namespace products;
 
 [ApiController]
 [Route("[controller]")]
@@ -10,11 +11,13 @@ public class ProductsController : ControllerBase
 {
     private ProductsContext _context;
     private IElasticClient _elasticClient;
+    private IBusControl _busControl;
 
-    public ProductsController(ProductsContext context, IElasticClient elasticClient)
+    public ProductsController(ProductsContext context, IElasticClient elasticClient, IBusControl busControl)
     {
         _context = context;
         _elasticClient = elasticClient;
+        _busControl = busControl;
     }
 
     [HttpGet]
@@ -53,7 +56,11 @@ public class ProductsController : ControllerBase
 
         await _context.SaveChangesAsync();
 
-        await _elasticClient.IndexDocumentAsync(newProduct.Entity);
+        model.Id = newProduct.Entity.Id;
+
+        await _busControl.Publish(model);
+
+        //await _elasticClient.IndexDocumentAsync(newProduct.Entity);
     }
 
     [HttpPut("{id}")]
@@ -70,8 +77,12 @@ public class ProductsController : ControllerBase
 
         await _context.SaveChangesAsync();
 
-        await _elasticClient.UpdateAsync<Product>(id, u => u
-                            .Doc(product));
+        model.Id = id;
+
+        await _busControl.Publish(model);
+
+        //await _elasticClient.UpdateAsync<Product>(id, u => u
+         //                   .Doc(product));
 
     }
 }

@@ -54,6 +54,13 @@ services:
     depends_on:
       - elasticsearch
 
+  queue:
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+      - "5552:5552"
+
 volumes:
   dbdata:
   esdata1:

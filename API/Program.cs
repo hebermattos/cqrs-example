@@ -1,6 +1,6 @@
-using Elastic.Clients.Elasticsearch;
+using MassTransit;
 using Nest;
-using Products;
+using products;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +23,20 @@ if (!string.IsNullOrEmpty(defaultIndex))
 var client = new ElasticClient(settings);
 
 builder.Services.AddSingleton<IElasticClient>(client);
+
+builder.Services.AddMassTransit(x =>
+           {
+               x.UsingRabbitMq((context, cfg) =>
+               {
+                   cfg.Host(new Uri($"rabbitmq://localhost"), host =>
+                    {
+                           host.Username("guest");
+                           host.Password("guest");
+                       });
+
+                   cfg.ConfigureEndpoints(context);
+               });
+           });
 
 var app = builder.Build();
 

@@ -1,4 +1,4 @@
-namespace Products
+namespace products
 {
 
     public class Product
