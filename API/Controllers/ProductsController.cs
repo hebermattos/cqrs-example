@@ -33,12 +33,14 @@ public class ProductsController : ControllerBase
             .From((page - 1) * size)
             .Size(size)
             .Query(q => q
-                .MultiMatch(m => m                    
+                .MultiMatch(m => m
                     .Fields(f => f
                         .Field("name")
-                        .Field("descirption")
+                        .Field("description")
             )
             .Query(query)
+            .Slop(5)
+            .Fuzziness(Fuzziness.Auto)
         )));
 
         return response.Documents;
