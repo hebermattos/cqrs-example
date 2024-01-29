@@ -50,6 +50,10 @@ public class ProductsController : ControllerBase
         product.Price = model.Price;
 
         await _context.SaveChangesAsync();
+
+        await _elasticClient.UpdateAsync<Product>(id, u => u           
+                            .Doc(product));
+
     }
 }
 
