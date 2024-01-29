@@ -51,9 +51,7 @@ public class ProductsController : ControllerBase
 
         await _context.SaveChangesAsync();
 
-        model.Id = newProduct.Entity.Id;
-
-        await _elasticClient.IndexDocumentAsync(model);
+        await _elasticClient.IndexDocumentAsync(newProduct.Entity);
     }
 
     [HttpPut("{id}")]
