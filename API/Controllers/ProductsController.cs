@@ -25,6 +25,25 @@ public class ProductsController : ControllerBase
                         .Take(size);
     }
 
+
+    [HttpGet("search/{query}")]
+    public async Task<IEnumerable<Product>> Search(string query, int page = 1, int size = 10)
+    {
+        var response = await _elasticClient.SearchAsync<Product>(x => x
+            .From((page - 1) * size)
+            .Size(size)
+            .Query(q => q
+                .MultiMatch(m => m                    
+                    .Fields(f => f
+                        .Field("name")
+                        .Field("descirption")
+            )
+            .Query(query)
+        )));
+
+        return response.Documents;
+    }
+
     [HttpPost]
     public async Task Post(Product model)
     {
@@ -51,7 +70,7 @@ public class ProductsController : ControllerBase
 
         await _context.SaveChangesAsync();
 
-        await _elasticClient.UpdateAsync<Product>(id, u => u           
+        await _elasticClient.UpdateAsync<Product>(id, u => u
                             .Doc(product));
 
     }
