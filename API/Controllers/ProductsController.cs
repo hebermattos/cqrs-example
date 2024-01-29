@@ -78,9 +78,6 @@ public class ProductsController : ControllerBase
         model.Id = id;
 
         await _busControl.Publish(model);
-
-
-
     }
 }
 
