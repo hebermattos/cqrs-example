@@ -1,3 +1,5 @@
+using Elastic.Clients.Elasticsearch;
+using Nest;
 using Products;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ProductsContext>();
+
+var settings = new ConnectionSettings(new Uri(builder.Configuration["ElasticSettings:baseUrl"]));
+
+var defaultIndex = builder.Configuration["ElasticSettings:defaultIndex"];
+
+if (!string.IsNullOrEmpty(defaultIndex))
+    settings = settings.DefaultIndex(defaultIndex);
+
+var client = new ElasticClient(settings);
+
+builder.Services.AddSingleton<IElasticClient>(client);
 
 var app = builder.Build();
 

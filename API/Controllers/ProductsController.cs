@@ -1,7 +1,6 @@
-using System.Drawing;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Nest;
 
 namespace Products.Controllers;
 
@@ -10,10 +9,12 @@ namespace Products.Controllers;
 public class ProductsController : ControllerBase
 {
     private ProductsContext _context;
+    private IElasticClient _elasticClient;
 
-    public ProductsController(ProductsContext context)
+    public ProductsController(ProductsContext context, IElasticClient elasticClient)
     {
         _context = context;
+        _elasticClient = elasticClient;
     }
 
     [HttpGet]
@@ -27,9 +28,13 @@ public class ProductsController : ControllerBase
     [HttpPost]
     public async Task Post(Product model)
     {
-        await _context.Products.AddAsync(model);
+        var newProduct = await _context.Products.AddAsync(model);
 
         await _context.SaveChangesAsync();
+
+        model.Id = newProduct.Entity.Id;
+
+        await _elasticClient.IndexDocumentAsync(model);
     }
 
     [HttpPut("{id}")]
