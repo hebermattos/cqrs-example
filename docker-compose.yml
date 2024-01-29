@@ -54,12 +54,17 @@ services:
     depends_on:
       - elasticsearch
 
-  queue:
+  rabbitmq:
     image: rabbitmq:3-management
     ports:
       - "15672:15672"
       - "5672:5672"
       - "5552:5552"
+
+  update-elastic:
+    build: UpdateElastic/
+    depends_on:
+        - rabbitmq
 
 volumes:
   dbdata:

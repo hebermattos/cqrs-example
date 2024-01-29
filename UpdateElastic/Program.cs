@@ -1,33 +1,39 @@
-﻿using System;
-using System.Threading;
 using MassTransit;
+using Nest;
+using products;
 
-namespace product
-{
-    class Program
+IHost host = Host.CreateDefaultBuilder(args)
+    .ConfigureServices((hostContext, services) =>
     {
-        private static readonly AutoResetEvent _closing = new AutoResetEvent(false);
+        IConfiguration configuration = hostContext.Configuration;
 
-        static void Main(string[] args)
+        var settings = new ConnectionSettings(new Uri(configuration["ElasticSettings:baseUrl"]));
+
+        var defaultIndex = configuration["ElasticSettings:defaultIndex"];
+
+        if (!string.IsNullOrEmpty(defaultIndex))
+            settings = settings.DefaultIndex(defaultIndex);
+
+        var client = new ElasticClient(settings);
+
+        services.AddSingleton<IElasticClient>(client);
+
+        services.AddMassTransit(x =>
         {
-            var bus = Bus.Factory.CreateUsingRabbitMq(config =>
-                        {
-                            config.Host(new Uri($"rabbitmq://localhost"), host =>
-                            {
-                                host.Username("guest");
-                                host.Password("guest");
-                            });
+            x.AddConsumer<ElasticUpdater>();
 
-                            config.ReceiveEndpoint("product.elastic.update", e =>
-                            {
-                                e.UseMessageRetry(r => r.Interval(5, TimeSpan.FromSeconds(1)));
-                                //e.Consumer<ImageViewProcessor>();
-                            });
-                        });
+            x.UsingRabbitMq((context, cfg) =>
+            {
+                cfg.Host("rabbitmq", "/", h =>
+                {
+                    h.Username("guest");
+                    h.Password("guest");
+                });
 
-            bus.Start();
+                cfg.ConfigureEndpoints(context);
+            });
+        });
+    })
+    .Build();
 
-            _closing.WaitOne();
-        }
-    }
-}
+await host.RunAsync();

@@ -59,8 +59,6 @@ public class ProductsController : ControllerBase
         model.Id = newProduct.Entity.Id;
 
         await _busControl.Publish(model);
-
-        //await _elasticClient.IndexDocumentAsync(newProduct.Entity);
     }
 
     [HttpPut("{id}")]
@@ -81,8 +79,7 @@ public class ProductsController : ControllerBase
 
         await _busControl.Publish(model);
 
-        //await _elasticClient.UpdateAsync<Product>(id, u => u
-         //                   .Doc(product));
+
 
     }
 }
