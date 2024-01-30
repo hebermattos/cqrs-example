@@ -15,8 +15,6 @@ namespace products
 
         public async Task Consume(ConsumeContext<Product> context)
         {
-            Console.WriteLine("...........recebeu.............");
-
             var product = context.Message;
 
             Console.WriteLine(JsonConvert.SerializeObject(product));
@@ -24,8 +22,6 @@ namespace products
             var data = await _elasticClient.UpdateAsync<Product>(product.Id, u => u
                             .Doc(product)
                             .DocAsUpsert());
-
-            Console.WriteLine(JsonConvert.SerializeObject(data));
         }
     }
 }

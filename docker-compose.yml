@@ -13,9 +13,9 @@ services:
      - MSSQL_AGENT_ENABLED=true
     volumes:
       - dbdata:/var/opt/mssql/data
-      - ./scripts/docker-entrypoint.sh:/entrypoint.sh
-      - ./scripts/docker-db-init.sh:/db-init.sh
-      - ./scripts/docker-db-init.sql:/db-init.sql
+      - ./SQL/docker-entrypoint.sh:/entrypoint.sh
+      - ./SQL/docker-db-init.sh:/db-init.sh
+      - ./SQL/docker-db-init.sql:/db-init.sql
       
   adminer:
     image: adminer
@@ -59,7 +59,14 @@ services:
     ports:
       - "15672:15672"
       - "5672:5672"
-      - "5552:5552"
+      - "5552:5552"      
+
+  api:
+    build: API/
+    ports:
+      - "5000:80"
+    depends_on:
+        - rabbitmq
 
   update-elastic:
     build: UpdateElastic/
@@ -68,5 +75,6 @@ services:
 
 volumes:
   dbdata:
+    driver: local
   esdata1:
     driver: local

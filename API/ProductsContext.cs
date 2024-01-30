@@ -8,7 +8,7 @@ namespace products
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=localhost;Initial Catalog=products;user id=sa;password=Password!");
+            optionsBuilder.UseSqlServer(@"Data Source=sqlserver;Initial Catalog=products;user id=sa;password=Password!");
         }
     }
 }
