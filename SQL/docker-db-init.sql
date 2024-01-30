@@ -7,6 +7,9 @@ IF DB_ID('products') IS NOT NULL
 CREATE DATABASE [products];
 GO
 
+USE [products]
+GO
+
 IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
 BEGIN
     CREATE TABLE [__EFMigrationsHistory] (
@@ -15,9 +18,6 @@ BEGIN
         CONSTRAINT [PK___EFMigrationsHistory] PRIMARY KEY ([MigrationId])
     );
 END;
-GO
-
-BEGIN TRANSACTION;
 GO
 
 CREATE TABLE [Products] (
@@ -31,7 +31,5 @@ GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
 VALUES (N'20240129123357_InitialCreate', N'6.0.26');
-GO
 
-COMMIT;
 GO

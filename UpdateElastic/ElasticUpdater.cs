@@ -17,8 +17,6 @@ namespace products
         {
             var product = context.Message;
 
-            Console.WriteLine(JsonConvert.SerializeObject(product));
-
             var data = await _elasticClient.UpdateAsync<Product>(product.Id, u => u
                             .Doc(product)
                             .DocAsUpsert());
