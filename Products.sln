@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Products", "API\Products.csproj", "{ED9480FC-5A02-44C6-BF7E-1E04AAD205D6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{ED9480FC-5A02-44C6-BF7E-1E04AAD205D6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpdateElastic", "UpdateElastic\UpdateElastic.csproj", "{3AF9A8C4-865A-4744-9AB0-2DC155405195}"
 EndProject
