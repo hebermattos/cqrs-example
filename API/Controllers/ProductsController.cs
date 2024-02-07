@@ -42,7 +42,6 @@ public class ProductsController : ControllerBase
                         .Field("description")
             )
             .Query(query)
-            .Slop(5)
             .Fuzziness(Fuzziness.Auto)
         )));
 

@@ -24,10 +24,10 @@ IHost host = Host.CreateDefaultBuilder(args)
 
             x.UsingRabbitMq((context, cfg) =>
             {
-                cfg.Host("rabbitmq", "/", h =>
+                cfg.Host(configuration["RabbitMq:host"], "/", h =>
                 {
-                    h.Username("guest");
-                    h.Password("guest");
+                    h.Username(configuration["RabbitMq:user"]);
+                    h.Password(configuration["RabbitMq:password"]);
                 });
 
                 cfg.ConfigureEndpoints(context);

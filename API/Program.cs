@@ -28,11 +28,11 @@ builder.Services.AddMassTransit(x =>
            {
                x.UsingRabbitMq((context, cfg) =>
                {
-                   cfg.Host(new Uri($"rabbitmq://rabbitmq"), host =>
-                    {
-                           host.Username("guest");
-                           host.Password("guest");
-                       });
+                   cfg.Host(builder.Configuration["RabbitMq:host"], "/", h =>
+                {
+                    h.Username(builder.Configuration["RabbitMq:user"]);
+                    h.Password(builder.Configuration["RabbitMq:password"]);
+                });
 
                    cfg.ConfigureEndpoints(context);
                });
