@@ -23,7 +23,9 @@ public class ProductsController : ControllerBase
     [HttpGet]
     public IEnumerable<Product> Get(int page = 1, int size = 10)
     {
-        return _context.Products.OrderBy(x => x.Id)
+        return _context.Products
+                        .AsNoTracking()
+                        .OrderBy(x => x.Id)
                         .Skip((page - 1) * size)
                         .Take(size);
     }
