@@ -17,7 +17,7 @@ namespace products
         {
             var product = context.Message;
 
-            var data = await _elasticClient.UpdateAsync<Product>(product.Id, u => u
+            await _elasticClient.UpdateAsync<Product>(product.Id, u => u
                             .Doc(product)
                             .DocAsUpsert());
         }
