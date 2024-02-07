@@ -9,9 +9,9 @@ namespace products;
 [Route("[controller]")]
 public class ProductsController : ControllerBase
 {
-    private ProductsContext _context;
-    private IElasticClient _elasticClient;
-    private IBusControl _busControl;
+    private readonly ProductsContext _context;
+    private readonly IElasticClient _elasticClient;
+    private readonly IBusControl _busControl;
 
     public ProductsController(ProductsContext context, IElasticClient elasticClient, IBusControl busControl)
     {
@@ -34,18 +34,19 @@ public class ProductsController : ControllerBase
     [HttpGet("search/{query}")]
     public async Task<IEnumerable<Product>> Search(string query, int page = 1, int size = 10)
     {
-        var response = await _elasticClient.SearchAsync<Product>(x => x
-            .From((page - 1) * size)
-            .Size(size)
-            .Query(q => q
-                .MultiMatch(m => m
-                    .Fields(f => f
-                        .Field("name")
-                        .Field("description")
-            )
-            .Query(query)
-            .Fuzziness(Fuzziness.Auto)
-        )));
+        var response = await _elasticClient
+                            .SearchAsync<Product>(x => x
+                            .From((page - 1) * size)
+                            .Size(size)
+                            .Query(q => q
+                                .MultiMatch(m => m
+                                    .Fields(f => f
+                                        .Field("name")
+                                        .Field("description")
+                            )
+                            .Query(query)
+                            .Fuzziness(Fuzziness.Auto)
+                        )));
 
         return response.Documents;
     }
@@ -81,4 +82,3 @@ public class ProductsController : ControllerBase
         await _busControl.Publish(model);
     }
 }
-
