@@ -16,7 +16,7 @@ Utilizing two databases in the CQRS pattern involves dedicating one database to 
 
 * Different Performance Needs: Using different data storage technologies for read and write operations can meet specific performance requirements more effectively. For instance, a relational database may ensure data consistency during writes, while a NoSQL database may offer better read performance.
 
-### Challenges
+### Difficulties
 
 * Complexity: Adopting CQRS adds complexity to system architecture and development. Managing separate models for read and write operations increases cognitive load and requires effort to maintain consistency.
 
