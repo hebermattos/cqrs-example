@@ -14,8 +14,7 @@ var settings = new ConnectionSettings(new Uri(builder.Configuration["ElasticSett
 
 var defaultIndex = builder.Configuration["ElasticSettings:defaultIndex"];
 
-if (!string.IsNullOrEmpty(defaultIndex))
-    settings = settings.DefaultIndex(defaultIndex);
+settings = settings.DefaultIndex(defaultIndex);
 
 var client = new ElasticClient(settings);
 

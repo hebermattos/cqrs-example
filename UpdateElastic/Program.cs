@@ -11,8 +11,7 @@ IHost host = Host.CreateDefaultBuilder(args)
 
         var defaultIndex = configuration["ElasticSettings:defaultIndex"];
 
-        if (!string.IsNullOrEmpty(defaultIndex))
-            settings = settings.DefaultIndex(defaultIndex);
+        settings = settings.DefaultIndex(defaultIndex);
 
         var client = new ElasticClient(settings);
 
