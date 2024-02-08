@@ -15,3 +15,11 @@ Utilizing two databases in the CQRS pattern involves dedicating one database to 
 * Independent Scalability: By separating the command and query databases, each can scale independently as needed, allocating resources where necessary without affecting the other.
 
 * Different Performance Needs: Using different data storage technologies for read and write operations can meet specific performance requirements more effectively. For instance, a relational database may ensure data consistency during writes, while a NoSQL database may offer better read performance.
+
+### Challenges
+
+* Complexity: Adopting CQRS adds complexity to system architecture and development. Managing separate models for read and write operations increases cognitive load and requires effort to maintain consistency.
+
+* Data Consistency: Ensuring consistency between the command and query sides is challenging. Synchronizing data between the two databases may lead to eventual consistency issues or additional overhead.
+
+* Performance Overhead: Maintaining separate read and write models, along with data synchronization, can impact system performance. Careful design and optimization are necessary to address potential performance bottlenecks.
