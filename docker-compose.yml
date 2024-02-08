@@ -1,7 +1,8 @@
-version: '2.2'
+version: '3.8'
 services:
 
   sqlserver:
+    container_name: sqlserver
     image: mcr.microsoft.com/mssql/server:2017-latest
     command: /bin/bash ./entrypoint.sh
     ports:
@@ -16,20 +17,27 @@ services:
       - ./SQL/docker-entrypoint.sh:/entrypoint.sh
       - ./SQL/docker-db-init.sh:/db-init.sh
       - ./SQL/docker-db-init.sql:/db-init.sql
+    labels:
+      "docker_compose_diagram.icon": "diagrams.onprem.database.Mssql"
+      "docker_compose_diagram.cluster": "Databases"
       
   adminer:
+    container_name: adminer
     image: adminer
     restart: always
     ports:
       - 8081:8080
-    links:
+    depends_on:
      - sqlserver
     environment:
       - ADM_INSTALL_MSSQL=true
       - PHP_FPM_INSTALL_MSSQL=true
       - WORKSPACE_INSTALL_MSSQL=true
+    labels:
+      "docker_compose_diagram.icon": "diagrams.onprem.client.Client"
 
   elasticsearch:
+    container_name: elasticsearch
     image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
     environment:
       - discovery.type=single-node
@@ -43,8 +51,12 @@ services:
       - esdata1:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
+    labels:
+      "docker_compose_diagram.icon": "diagrams.elastic.elasticsearch.Elasticsearch"
+      "docker_compose_diagram.cluster": "Databases"
 
   kibana:
+    container_name: kibana
     image: docker.elastic.co/kibana/kibana:7.4.0
     restart: always
     environment:
@@ -53,25 +65,47 @@ services:
       - 5601:5601
     depends_on:
       - elasticsearch
+    labels:
+      "docker_compose_diagram.icon": "diagrams.elastic.elasticsearch.Kibana"
 
   rabbitmq:
+    container_name: rabbitmq
     image: rabbitmq:3-management
     ports:
       - "15672:15672"
       - "5672:5672"
       - "5552:5552"      
+    labels:
+      "docker_compose_diagram.icon": "diagrams.onprem.queue.Rabbitmq"
+      "docker_compose_diagram.cluster": "Databases"
 
-  api:
-    build: API/
+  webapi:
+    container_name: webapi
+    build:
+      context: .
+      dockerfile: API\Dockerfile
     ports:
       - "5000:80"
     depends_on:
-        - rabbitmq
+      - elasticsearch
+      - sqlserver
+      - rabbitmq
+    labels:
+      "docker_compose_diagram.icon": "diagrams.programming.language.Csharp"
+      "docker_compose_diagram.cluster": "Products"
 
   update-elastic:
-    build: UpdateElastic/
+    container_name: update-elastic
+    build:
+      context: .
+      dockerfile: UpdateElastic\Dockerfile
     depends_on:
-        - rabbitmq
+      - rabbitmq
+      - elasticsearch
+      - sqlserver
+    labels:
+      "docker_compose_diagram.icon": "django"
+      "docker_compose_diagram.cluster": "Products"
 
 volumes:
   dbdata:
