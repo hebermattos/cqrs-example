@@ -26,5 +26,5 @@ Utilizing two databases in the CQRS pattern involves dedicating one database to 
 
 ### Example
 
-The docker-compose.yml file outlines the configuration of a Docker environment following the CQRS pattern. In the context of this pattern, commands are directed to SQL Server, while queries are processed in Elasticsearch.
+The (docker-compose.yml)[https://github.com/hebermattos/cqrs-example/blob/master/docker-compose.yml] file outlines the configuration of a Docker environment following the CQRS pattern. In the context of this pattern, commands are directed to SQL Server, while queries are processed in Elasticsearch.
 In addition to the main services, there is an additional service called update-elastic. This service plays a crucial role in synchronizing Elasticsearch with SQL Server. It is responsible for updating Elasticsearch with any changes that occur in SQL Server, ensuring that the data in Elasticsearch is always up-to-date and in sync with the primary database.
