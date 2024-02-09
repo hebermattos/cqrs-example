@@ -2,17 +2,19 @@ version: '3.8'
 services:
 
   sqlserver:
-    image: mcr.microsoft.com/mssql/server:2017-latest
+    image: mcr.microsoft.com/mssql/server:2022-latest
     command: /bin/bash ./entrypoint.sh
     ports:
      - 1433:1433
     environment:
      - ACCEPT_EULA=Y
-     - MSSQL_PID=Standard
-     - SA_PASSWORD=Password!
+     - MSSQL_PID=Developer
+     - MSSQL_SA_PASSWORD=Passw0rd
      - MSSQL_AGENT_ENABLED=true
+     - MSSQL_DATA_DIR=/var/opt/mssql/data
+     - MSSQL_TCP_PORT=1433 
     volumes:
-      - dbdata:/var/opt/mssql/data
+      - dbdata:/var/opt/mssql
       - ./SQL/docker-entrypoint.sh:/entrypoint.sh
       - ./SQL/docker-db-init.sh:/db-init.sh
       - ./SQL/docker-db-init.sql:/db-init.sql
