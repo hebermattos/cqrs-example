@@ -4,13 +4,13 @@ WORKDIR /app
 # Copy csproj and restore as distinct layers
 COPY API/*.csproj ./API/
 COPY shared/*.csproj ./shared/
+RUN dotnet restore ./API/API.csproj
 
 # Copy everything else and build
 COPY API/. ./API/
 COPY shared/. ./shared/
 
 WORKDIR /app/API
-RUN dotnet restore
 RUN dotnet publish -c Release -o out
 
 # Build runtime image
