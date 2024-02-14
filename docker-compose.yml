@@ -64,7 +64,8 @@ services:
       - "5552:5552"      
 
   webapi:
-    build: API/
+    build:
+      dockerfile: dockerfile-api
     ports:
       - "5000:80"
     depends_on:
@@ -73,7 +74,8 @@ services:
       - rabbitmq
 
   update-elastic:
-    build: UpdateElastic/
+    build:
+      dockerfile: dockerfile-update-elastic
     depends_on:
       - rabbitmq
       - elasticsearch
