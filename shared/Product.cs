@@ -13,7 +13,5 @@
             Description = description;
             Price = price;
         }
-
     }
-
 }
