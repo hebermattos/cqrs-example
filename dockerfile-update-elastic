@@ -5,6 +5,7 @@ WORKDIR /app
 COPY UpdateElastic/*.csproj ./UpdateElastic/
 COPY shared/*.csproj ./shared/
 RUN dotnet restore ./UpdateElastic/UpdateElastic.csproj
+RUN dotnet restore ./shared/shared.csproj
 
 # Copy everything else and build
 COPY UpdateElastic/. ./UpdateElastic/

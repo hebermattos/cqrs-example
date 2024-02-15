@@ -1,6 +1,7 @@
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Model;
 using Nest;
 
 namespace products;
@@ -52,15 +53,19 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task Post(Product model)
+    public async Task Post(ProductModel model)
     {
-        var newProduct = await _context.Products.AddAsync(model);
+        var newProduct = new Product{
+            Description = model.Description,
+            Name = model.Name,
+            Price = model.Price
+        };
+
+        await _context.Products.AddAsync(newProduct);
 
         await _context.SaveChangesAsync();
 
-        model.Id = newProduct.Entity.Id;
-
-        await _busControl.Publish(model);
+        await _busControl.Publish(newProduct);
     }
 
     [HttpPut("{id}")]
