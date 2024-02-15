@@ -11,7 +11,7 @@ using products;
 namespace API.Migrations
 {
     [DbContext(typeof(ProductsContext))]
-    [Migration("20240215120534_init")]
+    [Migration("20240215122748_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,8 +42,8 @@ namespace API.Migrations
                         .HasColumnType("nvarchar(64)");
 
                     b.Property<decimal>("Price")
-                        .HasPrecision(2)
-                        .HasColumnType("decimal(2,2)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
                     b.HasKey("Id");
 

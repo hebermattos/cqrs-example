@@ -10,6 +10,7 @@ GO
 USE [products]
 GO
 
+IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
 BEGIN
     CREATE TABLE [__EFMigrationsHistory] (
         [MigrationId] nvarchar(150) NOT NULL,
@@ -26,13 +27,13 @@ CREATE TABLE [Products] (
     [Id] int NOT NULL IDENTITY,
     [Name] nvarchar(64) NOT NULL,
     [Description] nvarchar(512) NOT NULL,
-    [Price] decimal(2,2) NOT NULL,
+    [Price] decimal(10,2) NOT NULL,
     CONSTRAINT [PK_Products] PRIMARY KEY ([Id])
 );
 GO
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
-VALUES (N'20240215120534_init', N'6.0.26');
+VALUES (N'20240215122748_init', N'6.0.26');
 GO
 
 COMMIT;
