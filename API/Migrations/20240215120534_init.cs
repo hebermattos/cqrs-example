@@ -2,9 +2,9 @@
 
 #nullable disable
 
-namespace products.Migrations
+namespace API.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,9 +14,9 @@ namespace products.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(2,2)", precision: 2, nullable: false)
                 },
                 constraints: table =>
                 {

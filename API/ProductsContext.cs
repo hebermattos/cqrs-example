@@ -6,9 +6,15 @@ namespace products
     {
         public DbSet<Product> Products { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public ProductsContext(DbContextOptions<ProductsContext> options)
+: base(options)
+        { }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=sqlserver;Initial Catalog=products;user id=sa;password=Passw0rd");
+            modelBuilder.Entity<Product>().Property(b => b.Price).HasPrecision(2).IsRequired();
+            modelBuilder.Entity<Product>().Property(b => b.Name).HasMaxLength(64).IsRequired();
+            modelBuilder.Entity<Product>().Property(b => b.Description).HasMaxLength(512).IsRequired();
         }
     }
 }

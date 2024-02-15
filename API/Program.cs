@@ -1,4 +1,5 @@
 using MassTransit;
+using Microsoft.EntityFrameworkCore;
 using Nest;
 using products;
 
@@ -8,7 +9,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<ProductsContext>();
+builder.Services.AddDbContext<ProductsContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 
 var settings = new ConnectionSettings(new Uri(builder.Configuration["ElasticSettings:baseUrl"]));
 
