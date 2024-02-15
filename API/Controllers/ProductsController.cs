@@ -55,11 +55,7 @@ public class ProductsController : ControllerBase
     [HttpPost]
     public async Task Post(ProductModel model)
     {
-        var newProduct = new Product{
-            Description = model.Description,
-            Name = model.Name,
-            Price = model.Price
-        };
+        var newProduct = new Product(model.Name, model.Description, model.Price);
 
         await _context.Products.AddAsync(newProduct);
 
@@ -69,7 +65,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task Put(int id, Product model)
+    public async Task Put(int id, ProductModel model)
     {
         var product = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -82,8 +78,6 @@ public class ProductsController : ControllerBase
 
         await _context.SaveChangesAsync();
 
-        model.Id = id;
-
-        await _busControl.Publish(model);
+        await _busControl.Publish(product);
     }
 }
