@@ -52,4 +52,4 @@ In addition to the main services, there is an additional service called update-e
 
 * Flexible Data Modeling: With SQL Server, data can be modeled flexibly, both in relational and NoSQL aspects, adapting to the specific requirements of each command in CQRS.
 
-* Security and Access Control: SQL Server offers advanced security features and access control, allowing for the implementation of granular permissions to ensure that only authorized users can execute write or read operations.
+* Security and Access Control: SQL Server offers advanced security features and access control, allowing for the implementation of granular permissions to ensure that only authorized users can execute write perations.
