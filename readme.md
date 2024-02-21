@@ -33,7 +33,12 @@ Utilizing two databases in the CQRS pattern involves dedicating one database to 
 
 * Performance Overhead: Maintaining separate read and write models, along with data synchronization, can impact system performance. Careful design and optimization are necessary to address potential performance bottlenecks.
 
-### Why Elasticsearch?
+### Example
+
+The [docker-compose.yml](https://github.com/hebermattos/cqrs-example/blob/master/docker-compose.yml) file outlines the configuration of a Docker environment following the CQRS pattern. In the context of this pattern, commands are directed to SQL Server, while queries are processed in Elasticsearch.
+In addition to the main services, there is an additional service called update-elastic. This service plays a crucial role in synchronizing Elasticsearch with SQL Server. It is responsible for updating Elasticsearch with any changes that occur in SQL Server, ensuring that the data in Elasticsearch is always up-to-date and in sync with the primary database. You can check some advantages of using asynchronous updates [here](https://medium.com/poatek/scaling-your-app-with-rabbitmq-eb9cb6c8d9d6)
+
+### Queries - Elasticsearch
 
 * Optimized Read Performance: Elasticsearch is highly optimized for read operations, enabling fast and efficient queries on large volumes of data. This is particularly beneficial for query operations in the CQRS pattern, which are directed to Elasticsearch.
 
@@ -41,7 +46,10 @@ Utilizing two databases in the CQRS pattern involves dedicating one database to 
 
 * Advanced Search Capabilities: Elasticsearch offers advanced search features, including full-text search, advanced filtering, aggregations, relevance analysis, and more. This makes it easier to implement complex search functionalities within the context of the CQRS pattern.
 
-### Example
+### Commands - SQL Server
 
-The [docker-compose.yml](https://github.com/hebermattos/cqrs-example/blob/master/docker-compose.yml) file outlines the configuration of a Docker environment following the CQRS pattern. In the context of this pattern, commands are directed to SQL Server, while queries are processed in Elasticsearch.
-In addition to the main services, there is an additional service called update-elastic. This service plays a crucial role in synchronizing Elasticsearch with SQL Server. It is responsible for updating Elasticsearch with any changes that occur in SQL Server, ensuring that the data in Elasticsearch is always up-to-date and in sync with the primary database. You can check some advantages of using asynchronous updates [here](https://medium.com/poatek/scaling-your-app-with-rabbitmq-eb9cb6c8d9d6)
+* Transactional Support: SQL Server provides a robust transactional mechanism, ensuring data consistency during complex write operations, essential for CQRS command implementation.
+
+* Flexible Data Modeling: With SQL Server, data can be modeled flexibly, both in relational and NoSQL aspects, adapting to the specific requirements of each command or query in CQRS.
+
+* Security and Access Control: SQL Server offers advanced security features and access control, allowing for the implementation of granular permissions to ensure that only authorized users can execute write or read operations.
