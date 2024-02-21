@@ -13,7 +13,7 @@ This allows optimizing each type of operation according to its specific needs. F
 
 The logical separation of the CQRS pattern simplifies system implementation by dividing reading and writing responsibilities without physically separating databases. This approach streamlines development and maintenance, reduces operational complexity, and facilitates agile system evolution. By avoiding synchronization between databases, it minimizes errors and data inconsistencies while potentially improving performance. In summary, CQRS's logical separation offers an efficient way to implement reading and writing functionalities, laying the groundwork for scalable, flexible, and easily maintained systems.
 
-### Two Databases (or more), Physical separation
+### Two Databases, Physical separation
 
 Utilizing two databases in the CQRS pattern involves dedicating one database to handle commands and another for queries. This optimization allows each database to be tailored for its specific task, enhancing performance and scalability. The command database focuses on data consistency and validation, while the query database prioritizes fast read access, often employing denormalized structures or caching. This separation enables the system to efficiently handle varying workloads and scale independently. However, ensuring data consistency between the two databases becomes a critical consideration in the design.
 
