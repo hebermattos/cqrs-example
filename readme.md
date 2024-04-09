@@ -35,7 +35,7 @@ Utilizing two databases in the CQRS pattern involves dedicating one database to 
 
 ### Example
 
-The [docker-compose.yml](https://github.com/hebermattos/cqrs-example/blob/master/docker-compose.yml) file outlines the configuration of a Docker environment following the CQRS pattern. In the context of this pattern, commands are directed to SQL Server, while queries are processed in Elasticsearch. You can check this [route](https://github.com/hebermattos/cqrs-example/blob/9d0e5cb442a91635dae3e207a1e8b10ec9590d50/API/Controllers/ProductsController.cs#L35) to see an elastic feature being used.
+The [docker-compose.yml](https://github.com/hebermattos/cqrs-example/blob/master/docker-compose.yml) file outlines the configuration of a Docker environment following the CQRS pattern. In the context of this pattern, commands are directed to SQL Server, while queries are processed in Elasticsearch. In this [route](https://github.com/hebermattos/cqrs-example/blob/9d0e5cb442a91635dae3e207a1e8b10ec9590d50/API/Controllers/ProductsController.cs#L35) we use an elastic feature.
 In addition to the main services, there is an additional service called update-elastic. This service plays a crucial role in synchronizing Elasticsearch with SQL Server. It is responsible for updating Elasticsearch with any changes that occur in SQL Server, ensuring that the data in Elasticsearch is always up-to-date and in sync with the primary database. You can check some advantages of using asynchronous updates [here](https://medium.com/poatek/scaling-your-app-with-rabbitmq-eb9cb6c8d9d6)
 
 ### Queries - Elasticsearch
