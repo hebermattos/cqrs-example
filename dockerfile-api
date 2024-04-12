@@ -3,13 +3,13 @@ WORKDIR /app
 
 # Copy csproj and restore as distinct layers
 COPY API/*.csproj ./API/
-COPY shared/*.csproj ./shared/
+COPY Shared/*.csproj ./Shared/
 RUN dotnet restore ./API/API.csproj
-RUN dotnet restore ./shared/shared.csproj
+RUN dotnet restore ./Shared/Shared.csproj
 
 # Copy everything else and build
 COPY API/. ./API/
-COPY shared/. ./shared/
+COPY Shared/. ./Shared/
 
 WORKDIR /app/API
 RUN dotnet publish -c Release -o out

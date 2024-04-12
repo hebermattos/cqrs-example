@@ -3,13 +3,13 @@ WORKDIR /app
 
 # Copy csproj and restore as distinct layers
 COPY UpdateElastic/*.csproj ./UpdateElastic/
-COPY shared/*.csproj ./shared/
+COPY Shared/*.csproj ./Shared/
 RUN dotnet restore ./UpdateElastic/UpdateElastic.csproj
-RUN dotnet restore ./shared/shared.csproj
+RUN dotnet restore ./Shared/Shared.csproj
 
 # Copy everything else and build
 COPY UpdateElastic/. ./UpdateElastic/
-COPY shared/. ./shared/
+COPY Shared/. ./Shared/
 
 WORKDIR /app/UpdateElastic
 RUN dotnet publish -c Release -o out
