@@ -1,4 +1,4 @@
-## CQRS
+## CQRS With SQL Server and Elasticsearch
 
 ### What's it?
 
