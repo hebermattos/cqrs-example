@@ -10,6 +10,8 @@ GO
 USE [products]
 GO
 
+EXEC sys.sp_cdc_enable_db;
+
 IF OBJECT_ID(N'[__EFMigrationsHistory]') IS NULL
 BEGIN
     CREATE TABLE [__EFMigrationsHistory] (
@@ -31,6 +33,8 @@ CREATE TABLE [Products] (
     CONSTRAINT [PK_Products] PRIMARY KEY ([Id])
 );
 GO
+
+EXEC sys.sp_cdc_enable_table @source_schema = 'dbo', @source_name = 'Products', @role_name = NULL, @supports_net_changes = 0
 
 INSERT INTO [__EFMigrationsHistory] ([MigrationId], [ProductVersion])
 VALUES (N'20240215122748_init', N'6.0.26');
