@@ -1,4 +1,4 @@
-using MassTransit;
+using Elasticsearch.Net;
 using Microsoft.EntityFrameworkCore;
 using Nest;
 using products;
@@ -18,25 +18,12 @@ var settings = new ConnectionSettings(new Uri(builder.Configuration["ElasticSett
 
 var defaultIndex = builder.Configuration["ElasticSettings:defaultIndex"];
 
-settings = settings.DefaultIndex(defaultIndex);
+settings.DefaultIndex(defaultIndex);
+settings.DefaultFieldNameInferrer(p => p);
 
 var client = new ElasticClient(settings);
 
 builder.Services.AddSingleton<IElasticClient>(client);
-
-// builder.Services.AddMassTransit(x =>
-//            {
-//                x.UsingRabbitMq((context, cfg) =>
-//                {
-//                    cfg.Host(builder.Configuration["RabbitMq:host"], "/", h =>
-//                 {
-//                     h.Username(builder.Configuration["RabbitMq:user"]);
-//                     h.Password(builder.Configuration["RabbitMq:password"]);
-//                 });
-
-//                    cfg.ConfigureEndpoints(context);
-//                });
-//            });
 
 var app = builder.Build();
 

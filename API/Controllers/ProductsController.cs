@@ -1,4 +1,3 @@
-using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Model;
@@ -12,13 +11,11 @@ public class ProductsController : ControllerBase
 {
     private readonly ProductsContext _context;
     private readonly IElasticClient _elasticClient;
-    private readonly IBusControl _busControl;
 
-    public ProductsController(ProductsContext context, IElasticClient elasticClient, IBusControl busControl)
+    public ProductsController(ProductsContext context, IElasticClient elasticClient)
     {
         _context = context;
         _elasticClient = elasticClient;
-        _busControl = busControl;
     }
 
     [HttpGet]
@@ -33,21 +30,21 @@ public class ProductsController : ControllerBase
 
 
     [HttpGet("search/{query}")]
-    public async Task<IEnumerable<Product>> Search(string query, int page = 1, int size = 10)
+    public async Task<IEnumerable<object>> Search(string query, int page = 1, int size = 10)
     {
         var response = await _elasticClient
-                            .SearchAsync<Product>(x => x
+                            .SearchAsync<ProductElastic>(x => x
                             .From((page - 1) * size)
                             .Size(size)
-                            .Query(q => q
-                                .MultiMatch(m => m
-                                    .Fields(f => f
-                                        .Field("name")
-                                        .Field("description")
-                            )
-                            .Query(query)
-                            .Fuzziness(Fuzziness.Auto)
-                        )));
+                            // .Query(q => q
+                            //     .MultiMatch(m => m
+                            //         .Fields(f => f
+                            //             .Field("Name")
+                            //             .Field("Description")
+                            // )
+                            // .Query(query)
+                            // .Fuzziness(Fuzziness.Auto)))
+                        );
 
         return response.Documents;
     }
@@ -60,8 +57,6 @@ public class ProductsController : ControllerBase
         await _context.Products.AddAsync(newProduct);
 
         await _context.SaveChangesAsync();
-
-        await _busControl.Publish(newProduct);
     }
 
     [HttpPut("{id}")]
@@ -77,7 +72,5 @@ public class ProductsController : ControllerBase
         product.Price = model.Price;
 
         await _context.SaveChangesAsync();
-
-        await _busControl.Publish(product);
     }
 }

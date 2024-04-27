@@ -109,7 +109,7 @@ services:
     depends_on:
       - elasticsearch
       - sqlserver
-      - rabbitmq
+
 volumes:
   dbdata:
     driver: local
