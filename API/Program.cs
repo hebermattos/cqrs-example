@@ -19,7 +19,6 @@ var settings = new ConnectionSettings(new Uri(builder.Configuration["ElasticSett
 var defaultIndex = builder.Configuration["ElasticSettings:defaultIndex"];
 
 settings.DefaultIndex(defaultIndex);
-settings.DefaultFieldNameInferrer(p => p);
 
 var client = new ElasticClient(settings);
 

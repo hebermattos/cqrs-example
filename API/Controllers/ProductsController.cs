@@ -30,7 +30,7 @@ public class ProductsController : ControllerBase
 
 
     [HttpGet("search/{query}")]
-    public async Task<IEnumerable<object>> Search(string query, int page = 1, int size = 10)
+    public async Task<IEnumerable<ProductElastic>> Search(string query, int page = 1, int size = 10)
     {
         var response = await _elasticClient
                             .SearchAsync<ProductElastic>(x => x

@@ -50,8 +50,7 @@ services:
       - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
 
   connect:
-    build:
-      dockerfile: dockerfile-connector
+    image: debezium/connect:1.8
     ports:
      - 8083:8083
     links:
@@ -75,6 +74,14 @@ services:
       - ADM_INSTALL_MSSQL=true
       - PHP_FPM_INSTALL_MSSQL=true
       - WORKSPACE_INSTALL_MSSQL=true
+
+  logstash:
+    build: ./logstash
+    restart: always
+    environment:
+      - "ES_JAVA_OPTS=-Xms1024m -Xmx1024m"
+    depends_on:
+      - elasticsearch
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
